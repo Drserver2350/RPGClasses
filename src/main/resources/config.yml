@@ -1,0 +1,48 @@
+# ===================== RPGClasses configuration =====================
+
+resource-pack:
+  # Send the custom resource pack to players on join
+  enabled: true
+  # Whether players MUST accept the pack (kicked if declined)
+  required: false
+  prompt: "&6&lRPGClasses &7- &fCustom class icons, skill items & HUD art"
+
+  # Delivery mode:
+  #   builtin -> the plugin starts a tiny HTTP server and serves pack.zip itself
+  #   url     -> you host pack.zip yourself and set 'url' below
+  mode: builtin
+
+  builtin:
+    port: 8123
+    # Public address players use to reach your server. "auto" tries server-ip
+    # from server.properties, then the machine's detected public IP.
+    public-address: auto
+
+  url: "https://example.com/pack.zip"
+
+leveling:
+  max-level: 30
+  # XP required for next level = base + (level * per-level)
+  base-xp: 100
+  per-level-xp: 45
+  # XP granted per point of max-health of a killed mob
+  xp-per-mob-health: 2.0
+  xp-per-player-kill: 120
+  xp-per-block-broken: 0.25
+
+mana:
+  base: 100
+  # extra mana per class level
+  per-level: 5
+  regen-per-second: 4.0
+
+casting:
+  # sneak + F (swap hands) cycles the selected skill
+  # sneak + right click casts the selected skill
+  # /cast <1|2|3> casts directly
+  hud: true
+
+class-change:
+  # Allow players to switch class with /class reset. Progress for that class is kept.
+  allow-reset: true
+  reset-cooldown-seconds: 600

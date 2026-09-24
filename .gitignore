@@ -1,0 +1,4 @@
+target/
+dist_out/
+packgen/pack/
+packgen/icons_preview*.png

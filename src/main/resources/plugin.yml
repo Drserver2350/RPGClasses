@@ -1,0 +1,29 @@
+name: RPGClasses
+version: ${project.version}
+main: com.arena.rpgclasses.RPGClassesPlugin
+api-version: '1.21'
+author: Arena
+description: 20 RPG classes with skills, mana, levels, passives and an auto-delivered custom resource pack.
+
+commands:
+  class:
+    description: Open the class selection menu or manage your class.
+    usage: /class [menu|info|reset|list|set <player> <class>|admin]
+    aliases: [rpg, classes]
+  cast:
+    description: Cast a class skill by slot (1-3).
+    usage: /cast <1|2|3>
+  skills:
+    description: Show your class skills.
+  rpgadmin:
+    description: Admin commands.
+    usage: /rpgadmin <reload|setlevel <player> <lvl>|addxp <player> <xp>|pack <player>>
+    permission: rpgclasses.admin
+
+permissions:
+  rpgclasses.admin:
+    default: op
+  rpgclasses.use:
+    default: true
+  rpgclasses.reset:
+    default: true
