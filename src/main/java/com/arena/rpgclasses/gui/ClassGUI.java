@@ -128,8 +128,10 @@ public final class ClassGUI implements Listener {
         ItemMeta im = info.getItemMeta();
         im.displayName(Component.text("How to play", NamedTextColor.GOLD, TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false));
         im.lore(List.of(
-                gray("Sneak + F  → cycle selected skill"),
-                gray("Sneak + Right-Click → cast skill"),
+                gray("Hold your Power Orb or class weapon:"),
+                gray("Right-Click → cast selected skill"),
+                gray("F (swap hands) → next skill"),
+                gray("Lost your items? /class items"),
                 gray("/cast 1|2|3 → cast directly"),
                 gray("/skills → detailed skill info"),
                 Component.empty(),

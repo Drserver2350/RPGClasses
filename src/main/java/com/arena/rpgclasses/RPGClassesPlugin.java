@@ -6,6 +6,7 @@ import com.arena.rpgclasses.listener.CombatListener;
 import com.arena.rpgclasses.listener.PlayerListener;
 import com.arena.rpgclasses.manager.ClassManager;
 import com.arena.rpgclasses.manager.DataManager;
+import com.arena.rpgclasses.manager.ItemManager;
 import com.arena.rpgclasses.manager.ManaManager;
 import com.arena.rpgclasses.manager.SkillManager;
 import com.arena.rpgclasses.pack.PackManager;
@@ -26,6 +27,7 @@ public final class RPGClassesPlugin extends JavaPlugin {
     private SkillManager skills;
     private PackManager pack;
     private ClassGUI gui;
+    private ItemManager items;
 
     public static RPGClassesPlugin get() { return instance; }
 
@@ -37,6 +39,7 @@ public final class RPGClassesPlugin extends JavaPlugin {
 
         classes = new ClassRegistry();
         data = new DataManager(this);
+        items = new ItemManager(this);
         classManager = new ClassManager(this);
         mana = new ManaManager(this);
         skills = new SkillManager(this);
@@ -80,4 +83,5 @@ public final class RPGClassesPlugin extends JavaPlugin {
     public SkillManager skills() { return skills; }
     public PackManager pack() { return pack; }
     public ClassGUI gui() { return gui; }
+    public ItemManager items() { return items; }
 }

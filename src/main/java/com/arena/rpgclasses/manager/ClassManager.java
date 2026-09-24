@@ -87,6 +87,7 @@ public final class ClassManager {
         applyStats(p);
         d.setMana(plugin.mana().maxMana(p, d));
         plugin.data().save(d);
+        plugin.items().giveKit(p, c);
 
         p.showTitle(Title.title(
                 Component.text(c.displayName(), c.color(), TextDecoration.BOLD),
@@ -95,7 +96,7 @@ public final class ClassManager {
         p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1.2f);
         FX.helix(p.getLocation(), 2.5, org.bukkit.Color.fromRGB(c.color().value()), 40);
         FX.msg(p, Component.text("You are now a ", NamedTextColor.GRAY).append(Component.text(c.displayName(), c.color(), TextDecoration.BOLD))
-                .append(Component.text("! Sneak + F to select a skill, Sneak + Right-Click to cast. /skills for details.", NamedTextColor.GRAY)));
+                .append(Component.text("! You received your Power Orb and weapon. Right-Click them to cast, press F to switch skills. /skills for details.", NamedTextColor.GRAY)));
         return true;
     }
 
@@ -129,8 +130,8 @@ public final class ClassManager {
         RPGClass c = plugin.classes().get(d.classId());
         applyStats(p);
         d.setMana(plugin.mana().maxMana(p, d));
-        p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1f, 1.5f);
-        p.playSound(p.getLocation(), Sound.BLOCK_ENCHANTMENT_TABLE_USE, 1f, 1.8f);
+        FX.customSound(p.getLocation(), "levelup", 1f, 1f);
+        FX.customRing(p.getLocation(), 1.5, c.particle(), 16);
         FX.particles(p.getLocation().add(0, 1, 0), Particle.TOTEM_OF_UNDYING, 60, 0.5, 0.8, 0.5, 0.3);
         p.showTitle(Title.title(
                 Component.text("LEVEL UP", NamedTextColor.GOLD, TextDecoration.BOLD),

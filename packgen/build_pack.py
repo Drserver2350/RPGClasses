@@ -269,6 +269,221 @@ def sym_gear(d):
 
 SYMBOLS = {k: v for k, v in globals().items() if k.startswith("sym_")}
 
+
+# --------------------------------------------------------------------------- weapons (handheld, 64x64)
+WOOD  = (125, 82, 45, 255); WOOD2 = (90, 58, 30, 255)
+STEEL = (215, 220, 230, 255); STEEL2 = (150, 158, 172, 255)
+GOLD  = (235, 190, 70, 255)
+
+def diag(pts):
+    """Rotate a vertically-drawn weapon (handle at bottom, tip at top) into the handheld 45° diagonal."""
+    return rot(pts, S/2, S/2, 45)
+
+def wpoly(d, pts, fill, outline=K, width=7): d.polygon(diag(pts), fill=fill, outline=outline, width=width)
+
+def wp_longsword(d):
+    c = S/2
+    wpoly(d, [(c-16, 20), (c, 0), (c+16, 20), (c+13, 150), (c-13, 150)], STEEL)
+    wpoly(d, [(c-3, 22), (c+3, 22), (c+3, 146), (c-3, 146)], STEEL2, None, 0)
+    wpoly(d, [(c-52, 148), (c+52, 148), (c+46, 170), (c-46, 170)], GOLD)
+    wpoly(d, [(c-11, 170), (c+11, 170), (c+11, 232), (c-11, 232)], WOOD2)
+    px, py = diag([(c, 240)])[0]
+    d.ellipse([px-16, py-16, px+16, py+16], fill=(200, 40, 60, 255), outline=K, width=6)
+
+def wp_katana(d):
+    c = S/2
+    wpoly(d, [(c-8, 4), (c+9, 12), (c+8, 154), (c-8, 154)], STEEL)
+    wpoly(d, [(c-2, 12), (c+4, 12), (c+3, 150), (c-3, 150)], (240, 245, 255, 255), None, 0)
+    wpoly(d, [(c-24, 152), (c+24, 152), (c+24, 166), (c-24, 166)], GOLD)
+    wpoly(d, [(c-9, 166), (c+9, 166), (c+9, 240), (c-9, 240)], (150, 30, 40, 255))
+    for y in range(174, 236, 14): wpoly(d, [(c-9, y), (c+9, y+5), (c+9, y+9), (c-9, y+4)], (20, 20, 25, 255), None, 0)
+
+def wp_greataxe(d):
+    c = S/2
+    wpoly(d, [(c-9, 10), (c+9, 10), (c+9, 240), (c-9, 240)], WOOD)
+    for s_ in (1, -1):
+        wpoly(d, [(c, 30), (c+s_*78, 6), (c+s_*92, 66), (c+s_*70, 118), (c, 100)], STEEL)
+        wpoly(d, [(c+s_*20, 42), (c+s_*70, 22), (c+s_*80, 64), (c+s_*62, 102), (c+s_*20, 90)], STEEL2, None, 0)
+    wpoly(d, [(c-16, 22), (c+16, 22), (c+16, 36), (c-16, 36)], GOLD)
+    wpoly(d, [(c-16, 100), (c+16, 100), (c+16, 114), (c-16, 114)], GOLD)
+
+def wp_longbow(d):
+    c = S/2
+    pts = [(c+8, 6)]
+    for i in range(1, 12):
+        f = i / 12; pts.append((c + 8 + 54*math.sin(f*math.pi), 6 + f*236))
+    pts.append((c+8, 242)); pts.append((c-4, 242))
+    for i in range(11, 0, -1):
+        f = i / 12; pts.append((c - 4 + 54*math.sin(f*math.pi), 6 + f*236))
+    pts.append((c-4, 6))
+    wpoly(d, pts, WOOD)
+    a, b = diag([(c+2, 10), (c+2, 238)])
+    d.line([a, b], fill=(235, 235, 235, 255), width=4)
+    wpoly(d, [(c+20, 110), (c+56, 110), (c+56, 138), (c+20, 138)], (60, 130, 60, 255))
+    for y in (20, 216): wpoly(d, [(c-8, y), (c+12, y), (c+12, y+12), (c-8, y+12)], GOLD, None, 0)
+
+def wp_dagger(d):
+    c = S/2
+    wpoly(d, [(c-14, 40), (c, 4), (c+14, 40), (c+10, 132), (c-10, 132)], (60, 65, 80, 255))
+    wpoly(d, [(c-3, 40), (c+3, 40), (c+2, 128), (c-2, 128)], (170, 60, 220, 255), None, 0)
+    wpoly(d, [(c-36, 130), (c+36, 130), (c+30, 148), (c-30, 148)], (30, 30, 40, 255))
+    wpoly(d, [(c-9, 148), (c+9, 148), (c+9, 210), (c-9, 210)], (50, 45, 60, 255))
+    wpoly(d, [(c-14, 208), (c+14, 208), (c+14, 226), (c-14, 226)], (170, 60, 220, 255))
+
+def wp_staff(d):
+    c = S/2
+    wpoly(d, [(c-9, 60), (c+9, 60), (c+9, 250), (c-9, 250)], WOOD)
+    for s_ in (1, -1):
+        wpoly(d, [(c, 70), (c+s_*34, 40), (c+s_*30, 10), (c+s_*8, 20), (c+s_*14, 44)], WOOD2)
+    ox, oy = diag([(c, 34)])[0]
+    d.ellipse([ox-30, oy-30, ox+30, oy+30], fill=(120, 190, 255, 255), outline=K, width=6)
+    d.ellipse([ox-10, oy-16, ox+6, oy], fill=(240, 250, 255, 255))
+    for y in (90, 104): wpoly(d, [(c-12, y), (c+12, y), (c+12, y+8), (c-12, y+8)], GOLD, None, 0)
+
+def wp_warhammer(d):
+    c = S/2
+    wpoly(d, [(c-10, 60), (c+10, 60), (c+10, 246), (c-10, 246)], WOOD)
+    wpoly(d, [(c-64, 14), (c+40, 14), (c+40, 80), (c-64, 80)], STEEL2)
+    wpoly(d, [(c-56, 22), (c+32, 22), (c+32, 72), (c-56, 72)], STEEL, None, 0)
+    wpoly(d, [(c+40, 30), (c+84, 44), (c+40, 64)], STEEL2)
+    for y in (30, 58): wpoly(d, [(c-60, y), (c-40, y), (c-40, y+8), (c-60, y+8)], GOLD, None, 0)
+    wpoly(d, [(c-14, 200), (c+14, 200), (c+14, 214), (c-14, 214)], GOLD, None, 0)
+
+def wp_lute(d):
+    c = S/2
+    body = diag([(c, 250)]); bx, by = body[0]
+    d.ellipse([bx-58, by-72, bx+58, by+30], fill=(190, 130, 70, 255), outline=K, width=7)
+    d.ellipse([bx-16, by-32, bx+16, by], fill=K)
+    wpoly(d, [(c-8, 20), (c+8, 20), (c+8, 190), (c-8, 190)], WOOD2)
+    wpoly(d, [(c-16, 10), (c+16, 10), (c+16, 40), (c-16, 40)], WOOD)
+    for x in (-5, 0, 5):
+        a, b = diag([(c+x, 40), (c+x, 250)])
+        d.line([a, b], fill=(240, 235, 200, 255), width=2)
+
+WEAPONS = {
+    "longsword": wp_longsword, "katana": wp_katana, "greataxe": wp_greataxe, "longbow": wp_longbow,
+    "dagger": wp_dagger, "staff": wp_staff, "warhammer": wp_warhammer, "lute": wp_lute,
+}
+
+def make_weapon(fn):
+    layer = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    d = ImageDraw.Draw(layer)
+    fn(d)
+    # flip so handle is bottom-left, tip top-right (Minecraft handheld convention)
+    shadow = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    shadow.paste((0, 0, 0, 120), (0, 0), layer.split()[3])
+    shadow = shadow.filter(ImageFilter.GaussianBlur(4))
+    out = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    out.alpha_composite(shadow, (4, 6)); out.alpha_composite(layer)
+    return out.resize((FINAL, FINAL), Image.LANCZOS)
+
+# --------------------------------------------------------------------------- power orbs (one per class)
+def make_orb(color, symbol):
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    glow = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    gd = ImageDraw.Draw(glow)
+    gd.ellipse([30, 30, S-30, S-30], fill=lighten(color, 0.3) + (170,))
+    glow = glow.filter(ImageFilter.GaussianBlur(18))
+    img.alpha_composite(glow)
+    d = ImageDraw.Draw(img)
+    for i in range(40, 0, -1):
+        f = i / 40
+        d.ellipse([S/2 - f*78, S/2 - f*78, S/2 + f*78, S/2 + f*78], fill=mix(lighten(color, 0.55), darken(color, 0.6), f) + (255,))
+    d.ellipse([S/2-78, S/2-78, S/2+78, S/2+78], outline=darken(color, 0.7) + (255,), width=7)
+    hl = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    ImageDraw.Draw(hl).ellipse([S/2-52, S/2-68, S/2, S/2-28], fill=(255, 255, 255, 110))
+    img.alpha_composite(hl.filter(ImageFilter.GaussianBlur(4)))
+    d = ImageDraw.Draw(img)
+    # small symbol in the center
+    sym = Image.new("RGBA", (S, S), (0, 0, 0, 0))
+    SYMBOLS["sym_" + symbol](ImageDraw.Draw(sym))
+    sym = sym.resize((S//2, S//2), Image.LANCZOS)
+    img.alpha_composite(sym, (S//4, S//4))
+    # cradle
+    d.polygon([(S/2-40, S-30), (S/2+40, S-30), (S/2+24, S-8), (S/2-24, S-8)], fill=GOLD, outline=K, width=5)
+    return img.resize((FINAL, FINAL), Image.LANCZOS)
+
+# --------------------------------------------------------------------------- particles (used via ITEM particles)
+def particle(kind):
+    img = Image.new("RGBA", (S, S), (0, 0, 0, 0)); d = ImageDraw.Draw(img); c = S/2
+    if kind == "rune":
+        d.polygon(rot([(c-70, c-70), (c+70, c-70), (c+70, c+70), (c-70, c+70)], c, c, 45), outline=(160, 90, 255, 255), width=18)
+        d.line([(c, c-60), (c, c+60)], fill=(220, 190, 255, 255), width=16); d.line([(c-40, c-20), (c+40, c+20)], fill=(220, 190, 255, 255), width=14)
+    elif kind == "skull":
+        d.ellipse([c-60, c-70, c+60, c+40], fill=(230, 230, 240, 255)); d.rectangle([c-36, c+30, c+36, c+70], fill=(230, 230, 240, 255))
+        d.ellipse([c-44, c-36, c-8, c], fill=(20, 0, 30, 255)); d.ellipse([c+8, c-36, c+44, c], fill=(20, 0, 30, 255))
+        for x in (-26, -8, 10): d.rectangle([c+x, c+40, c+x+8, c+70], fill=(20, 0, 30, 255))
+    elif kind == "star":
+        pts = []
+        for i in range(10):
+            a = math.radians(i*36 - 90); r = 90 if i % 2 == 0 else 38
+            pts.append((c + r*math.cos(a), c + r*math.sin(a)))
+        d.polygon(pts, fill=(255, 240, 150, 255)); d.ellipse([c-20, c-20, c+20, c+20], fill=(255, 255, 255, 255))
+    elif kind == "leaf":
+        d.polygon(rot([(c, c-90), (c+60, c-30), (c+50, c+50), (c, c+90), (c-50, c+50), (c-60, c-30)], c, c, 30), fill=(110, 220, 90, 255))
+        a, b = rot([(c, c-80), (c, c+80)], c, c, 30); d.line([a, b], fill=(40, 120, 50, 255), width=10)
+    elif kind == "ember":
+        d.polygon([(c, c-90), (c+50, c-10), (c+60, c+50), (c, c+90), (c-60, c+50), (c-50, c-10)], fill=(255, 130, 30, 255))
+        d.polygon([(c, c-30), (c+26, c+20), (c, c+60), (c-26, c+20)], fill=(255, 240, 120, 255))
+    elif kind == "snow":
+        for ang in range(0, 180, 60):
+            a = math.radians(ang); d.line([(c-80*math.cos(a), c-80*math.sin(a)), (c+80*math.cos(a), c+80*math.sin(a))], fill=(220, 245, 255, 255), width=16)
+        d.ellipse([c-22, c-22, c+22, c+22], fill=(255, 255, 255, 255))
+    img = img.filter(ImageFilter.GaussianBlur(0.8))
+    return img.resize((16, 16), Image.LANCZOS)
+
+PARTICLES = ["rune", "skull", "star", "leaf", "ember", "snow"]
+
+# --------------------------------------------------------------------------- sounds (synthesized OGG)
+import numpy as np, soundfile as sf
+SR = 44100
+def env(n, a=0.01, r=0.4):
+    t = np.linspace(0, 1, n); e = np.minimum(1, t / max(a, 1e-4)); return e * np.exp(-r * 10 * t)
+def tone(f, dur, wave="sine", vib=0):
+    t = np.linspace(0, dur, int(SR*dur), endpoint=False)
+    ph = 2*np.pi*f*t + vib*np.sin(2*np.pi*6*t)
+    return {"sine": np.sin(ph), "saw": 2*(ph/(2*np.pi) % 1) - 1, "square": np.sign(np.sin(ph))}[wave]
+def noise(dur): return np.random.uniform(-1, 1, int(SR*dur))
+def lowpass(x, k=8):  return np.convolve(x, np.ones(k)/k, mode="same")
+def norm(x): return (0.85 * x / (np.max(np.abs(x)) + 1e-9)).astype("float32")
+
+def snd_cast_generic():
+    x = lowpass(noise(0.5), 12) * env(int(SR*0.5), 0.05, 0.6)
+    x += 0.5 * sum(tone(f, 0.5) * env(int(SR*0.5), 0.005, 0.5) for f in (880, 1320, 1760))
+    return norm(x)
+def snd_cast_fire():
+    n = int(SR*0.8); x = lowpass(noise(0.8), 6) * env(n, 0.02, 0.35)
+    x += 0.6 * tone(90, 0.8, "saw") * env(n, 0.01, 0.5) * (1 + 0.3*np.sin(np.linspace(0, 60, n)))
+    return norm(x)
+def snd_cast_ice():
+    n = int(SR*0.9); x = sum(tone(f, 0.9) * env(n, 0.002, 0.6 + i*0.2) for i, f in enumerate((2093, 2637, 3136, 4186)))
+    x += 0.3 * lowpass(noise(0.9), 2) * env(n, 0.001, 1.5)
+    return norm(x)
+def snd_cast_holy():
+    n = int(SR*1.4); x = sum(tone(f, 1.4, vib=3) * env(n, 0.15, 0.25) for f in (523, 659, 784, 1046))
+    return norm(x)
+def snd_cast_dark():
+    n = int(SR*1.2); x = tone(55, 1.2, "saw", vib=8) * env(n, 0.1, 0.3) + 0.6 * tone(82, 1.2, "square") * env(n, 0.2, 0.3)
+    x = lowpass(x, 20) + 0.4 * lowpass(noise(1.2), 40) * env(n, 0.3, 0.3)
+    return norm(x)
+def snd_cast_thunder():
+    n = int(SR*1.5); x = noise(1.5) * env(n, 0.001, 0.25)
+    x = lowpass(x, 3) + 0.8 * lowpass(noise(1.5), 60) * env(n, 0.05, 0.15)
+    return norm(x)
+def snd_levelup():
+    parts = []
+    for i, f in enumerate((523, 659, 784, 1046, 1318)):
+        parts.append(tone(f, 0.18) * env(int(SR*0.18), 0.005, 0.3))
+    x = np.concatenate(parts + [sum(tone(f, 0.9) * env(int(SR*0.9), 0.01, 0.4) for f in (1046, 1318, 1568))])
+    return norm(x)
+def snd_ui_select():
+    n = int(SR*0.12); return norm(tone(1200, 0.12, "square") * env(n, 0.002, 0.8) + tone(1800, 0.12) * env(n, 0.002, 0.9))
+
+SOUNDS = {
+    "cast.generic": snd_cast_generic, "cast.fire": snd_cast_fire, "cast.ice": snd_cast_ice, "cast.holy": snd_cast_holy,
+    "cast.dark": snd_cast_dark, "cast.thunder": snd_cast_thunder, "levelup": snd_levelup, "ui.select": snd_ui_select,
+}
+
 # --------------------------------------------------------------------------- build
 def make_icon(color, symbol):
     img = background(color)
@@ -320,6 +535,42 @@ def main():
         write(os.path.join(item_dir, f"{cid}.json"), json.dumps({
             "model": {"type": "minecraft:model", "model": f"{NS}:item/{cid}"}
         }, indent=2))
+
+    def item_model(name, parent):
+        write(os.path.join(mdl_dir, f"{name}.json"), json.dumps({"parent": parent, "textures": {"layer0": f"{NS}:item/{name}"}}, indent=2))
+        write(os.path.join(item_dir, f"{name}.json"), json.dumps({"model": {"type": "minecraft:model", "model": f"{NS}:item/{name}"}}, indent=2))
+
+    # weapons
+    wprev = Image.new("RGBA", (FINAL*8 + 36, FINAL + 8), (30, 30, 40, 255))
+    for i, (name, fn) in enumerate(WEAPONS.items()):
+        img = make_weapon(fn); img.save(os.path.join(tex_dir, f"weapon_{name}.png"))
+        wprev.alpha_composite(img, (4 + i*(FINAL+4), 4))
+        item_model(f"weapon_{name}", "minecraft:item/handheld")
+    wprev.save(os.path.join(ROOT, "weapons_preview.png"))
+
+    # power orbs
+    oprev = Image.new("RGBA", (FINAL*5 + 24, FINAL*4 + 20), (30, 30, 40, 255))
+    for i, (cid, (hexcol, symbol)) in enumerate(CLASSES.items()):
+        img = make_orb(rgb(hexcol), symbol); img.save(os.path.join(tex_dir, f"orb_{cid}.png"))
+        oprev.alpha_composite(img, (4 + (i % 5)*(FINAL+4), 4 + (i // 5)*(FINAL+4)))
+        item_model(f"orb_{cid}", "minecraft:item/generated")
+    oprev.save(os.path.join(ROOT, "orbs_preview.png"))
+
+    # particles
+    for kind in PARTICLES:
+        particle(kind).save(os.path.join(tex_dir, f"particle_{kind}.png"))
+        item_model(f"particle_{kind}", "minecraft:item/generated")
+
+    # sounds
+    snd_dir = os.path.join(OUT, "assets", NS, "sounds")
+    os.makedirs(snd_dir, exist_ok=True)
+    sounds_json = {}
+    np.random.seed(7)
+    for name, fn in SOUNDS.items():
+        fname = name.replace(".", "_")
+        sf.write(os.path.join(snd_dir, fname + ".ogg"), fn(), SR, format="OGG", subtype="VORBIS")
+        sounds_json[name] = {"category": "player", "sounds": [f"{NS}:{fname}"]}
+    write(os.path.join(OUT, "assets", NS, "sounds.json"), json.dumps(sounds_json, indent=2))
 
     # pack icon
     pack_icon = make_icon(rgb(0x8E44AD), "sword").resize((128, 128), Image.LANCZOS)

@@ -62,6 +62,14 @@ public final class Commands implements TabExecutor {
                 FX.msg(p, Component.text(c.displayName(), c.color(), TextDecoration.BOLD).append(Component.text("  Level " + d.level() + "  XP " + (int) d.xp() + "/" + (int) plugin.classManager().xpForNext(d.level()), NamedTextColor.GRAY)));
                 FX.msg(p, Component.text("Passive: ", NamedTextColor.LIGHT_PURPLE).append(Component.text(c.passiveName() + " - " + c.passiveDescription(), NamedTextColor.GRAY)));
             }
+            case "items", "kit", "orb" -> {
+                if (!(sender instanceof Player p)) return;
+                PlayerData d = plugin.data().get(p);
+                RPGClass c = plugin.classes().get(d.classId());
+                if (c == null) { FX.msg(p, "You have no class yet. Use /class to choose one."); return; }
+                plugin.items().giveKit(p, c);
+                FX.msg(p, Component.text("Your Power Orb and weapon have been restored.", NamedTextColor.GREEN));
+            }
             case "reset" -> {
                 if (!(sender instanceof Player p)) return;
                 if (!plugin.getConfig().getBoolean("class-change.allow-reset")) { FX.msg(p, Component.text("Class changes are disabled.", NamedTextColor.RED)); return; }
@@ -100,7 +108,7 @@ public final class Commands implements TabExecutor {
                     .append(Component.text("  " + (int) s.cooldownSeconds() + "s cd • " + (int) s.manaCost() + " mana", NamedTextColor.DARK_AQUA)));
             p.sendMessage(Component.text("     " + s.description(), NamedTextColor.GRAY));
         }
-        p.sendMessage(Component.text("Sneak + F to cycle, Sneak + Right-Click to cast, or /cast <1-3>", NamedTextColor.DARK_GRAY, TextDecoration.ITALIC));
+        p.sendMessage(Component.text("Hold your Power Orb or weapon: Right-Click to cast, F to switch skill, or /cast <1-3>. Lost it? /class items", NamedTextColor.DARK_GRAY, TextDecoration.ITALIC));
     }
 
     private void admin(CommandSender s, String[] a) {
@@ -142,7 +150,7 @@ public final class Commands implements TabExecutor {
         List<String> out = new ArrayList<>();
         String n = cmd.getName().toLowerCase(Locale.ROOT);
         if (n.equals("class")) {
-            if (a.length == 1) { out.addAll(List.of("menu", "info", "list", "reset")); if (sender.hasPermission("rpgclasses.admin")) out.add("set"); plugin.classes().all().forEach(c -> out.add(c.id())); }
+            if (a.length == 1) { out.addAll(List.of("menu", "info", "list", "reset", "items")); if (sender.hasPermission("rpgclasses.admin")) out.add("set"); plugin.classes().all().forEach(c -> out.add(c.id())); }
             else if (a.length == 2 && a[0].equalsIgnoreCase("set")) Bukkit.getOnlinePlayers().forEach(p -> out.add(p.getName()));
             else if (a.length == 3 && a[0].equalsIgnoreCase("set")) plugin.classes().all().forEach(c -> out.add(c.id()));
         } else if (n.equals("cast")) { if (a.length == 1) out.addAll(List.of("1", "2", "3")); }

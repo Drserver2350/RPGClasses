@@ -25,11 +25,13 @@ public final class RPGClass {
     private final double bonusDamage;   // multiplier added to attack damage
     private final double bonusArmor;
     private final List<Skill> skills;
+    private final String castSound;   // sounds.json key, e.g. cast.fire
+    private final String particle;    // custom particle kind
 
     public RPGClass(String id, String displayName, Role role, TextColor color, Material fallbackIcon, String lore,
                     String passiveName, String passiveDescription,
                     double bonusHealth, double bonusSpeed, double bonusDamage, double bonusArmor,
-                    List<Skill> skills) {
+                    List<Skill> skills, String castSound, String particle) {
         this.id = id;
         this.displayName = displayName;
         this.role = role;
@@ -43,6 +45,8 @@ public final class RPGClass {
         this.bonusDamage = bonusDamage;
         this.bonusArmor = bonusArmor;
         this.skills = List.copyOf(skills);
+        this.castSound = castSound;
+        this.particle = particle;
     }
 
     public String id() { return id; }
@@ -58,6 +62,8 @@ public final class RPGClass {
     public double bonusDamage() { return bonusDamage; }
     public double bonusArmor() { return bonusArmor; }
     public List<Skill> skills() { return skills; }
+    public String castSound() { return castSound; }
+    public String particle() { return particle; }
 
     public String roleName() {
         return switch (role) {

@@ -10,7 +10,7 @@ Tested on Paper 1.21.11 build 132 · Java 21.
 
 ## Install (30 seconds)
 
-1. Drop `RPGClasses-1.0.0.jar` into your server's `plugins/` folder.
+1. Drop `RPGClasses-1.1.0.jar` into your server's `plugins/` folder.
 2. Start the server. The plugin will:
    * extract the resource pack to `plugins/RPGClasses/pack.zip`
    * start a tiny HTTP server on port **8123** and serve the pack from it
@@ -28,8 +28,9 @@ Tested on Paper 1.21.11 build 132 · Java 21.
 | Action | How |
 |---|---|
 | Choose a class | `/class` (GUI with icons + full descriptions, confirm screen) |
-| Select a skill | **Sneak + F** (swap-hands key) cycles slot 1 → 2 → 3 |
-| Cast the selected skill | **Sneak + Right-click** |
+| Get your items | Given automatically on class pick — a **Power Orb** + your **signature weapon** (`/class items` to restore) |
+| Select a skill | Hold the orb/weapon and press **F** (swap hands) → next skill, **Sneak + F** → previous |
+| Cast the selected skill | **Right-click** with the Power Orb or your class weapon (bow: use the orb) |
 | Cast directly | `/cast 1`, `/cast 2`, `/cast 3` |
 | View skills & passive | `/skills`, `/class info` |
 | Change class | `/class reset` (10-min cooldown by default; progress per class is saved) |
@@ -71,7 +72,7 @@ Every class also has base stat modifiers (health / speed / damage / armor) shown
 
 | Command | Permission | Description |
 |---|---|---|
-| `/class [menu\|info\|list\|reset\|<class>]` | `rpgclasses.use` (default) | Class menu / info |
+| `/class [menu\|info\|list\|items\|reset\|<class>]` | `rpgclasses.use` (default) | Class menu / info / restore items |
 | `/class set <player> <class>` | `rpgclasses.admin` | Force-set a class |
 | `/cast <1-3>` | default | Cast a skill |
 | `/skills` | default | Skill list |
@@ -87,16 +88,24 @@ Every class also has base stat modifiers (health / speed / damage / armor) shown
 
 ## Resource pack
 
-`pack.zip` contains 20 hand-drawn 64×64 class icons (custom item models via the
-`minecraft:item_model` component, namespace `rpgclasses:<classid>`), a pack icon and a
-`pack.mcmeta` targeting pack format 75 (1.21.11) with a wide compatibility range.
+`pack.zip` (all via the `minecraft:item_model` component, namespace `rpgclasses:`) contains:
+
+* **20 class icons** (`rpgclasses:<classid>`) used in the GUI
+* **20 Power Orbs** (`rpgclasses:orb_<classid>`) — the casting item, one glowing orb per class
+* **8 custom weapons** (`rpgclasses:weapon_longsword|katana|greataxe|longbow|dagger|staff|warhammer|lute`) — each class gets a named, unbreakable, soulbound signature weapon with its own stats
+* **8 custom sounds** (`sounds.json`): `rpgclasses:cast.generic|fire|ice|holy|dark|thunder`, `levelup`, `ui.select` — played on cast / level-up / skill switch
+* **6 custom particles** (`rpgclasses:particle_rune|skull|star|leaf|ember|snow`) — rendered as item particles so no vanilla particle is overwritten; each class has a themed particle burst on cast
+
+`pack.mcmeta` targets pack format 75 (1.21.11) with a wide compatibility range.
+
+Soulbound items can't be dropped, stored in containers, put in frames or lost on death.
 Regenerate/modify with `python3 packgen/build_pack.py` (needs Pillow), then rebuild.
 
 ## Building from source
 
 ```
 export JAVA_HOME=/path/to/jdk21
-mvn clean package          # -> target/RPGClasses-1.0.0.jar
+mvn clean package          # -> target/RPGClasses-1.1.0.jar
 ```
 
 ## Project layout
@@ -106,7 +115,7 @@ src/main/java/com/arena/rpgclasses/
   RPGClassesPlugin.java      main class / wiring
   model/                     RPGClass, Skill, PlayerData
   skills/ClassRegistry.java  ALL 20 classes & 60 skills (edit here to balance/add)
-  manager/                   ClassManager (stats, XP), ManaManager (HUD), SkillManager (casting), DataManager (YAML)
+  manager/                   ClassManager (stats, XP), ManaManager (HUD), SkillManager (casting), ItemManager (orb/weapons), DataManager (YAML)
   listener/                  PlayerListener (join, pack, input), CombatListener (passives, XP, hooks)
   gui/ClassGUI.java          class selection menu
   pack/PackManager.java      pack extraction, built-in HTTP server, delivery

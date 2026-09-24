@@ -62,7 +62,7 @@ public final class ClassRegistry {
                     for (var a : alliesNear(p, 8)) effect(a, PotionEffectType.STRENGTH, 10 + lv * 0.3, lv >= 20 ? 1 : 0);
                     for (var e : enemiesNear(p, p.getLocation(), 8)) effect(e, PotionEffectType.WEAKNESS, 8, 0);
                     return true;
-                }))));
+                })), "cast.generic", "star"));
 
         // ------------------------------------------------------------ 2. PALADIN
         add(new RPGClass("paladin", "Paladin", Role.HYBRID, c(0xF1C40F), Material.GOLDEN_SWORD,
@@ -90,7 +90,7 @@ public final class ClassRegistry {
                         for (var e : enemiesNear(p, center, 5)) { e.setFireTicks(40); damage(p, e, 1.5 + lv * 0.1); }
                     });
                     return true;
-                }))));
+                })), "cast.holy", "star"));
 
         // ------------------------------------------------------------ 3. BERSERKER
         add(new RPGClass("berserker", "Berserker", Role.MELEE_DPS, c(0x8E2B2B), Material.IRON_AXE,
@@ -121,7 +121,7 @@ public final class ClassRegistry {
                     p.getWorld().spawnParticle(Particle.BLOCK, p.getLocation(), 60, 2, 0.2, 2, 0, p.getLocation().subtract(0, 1, 0).getBlock().getBlockData());
                     for (var e : enemiesNear(p, p.getLocation(), 5)) { damage(p, e, 7 + lv * 0.4); e.setVelocity(new Vector(0, 1.1, 0)); }
                     return true;
-                }))));
+                })), "cast.generic", "ember"));
 
         // ------------------------------------------------------------ 4. GUARDIAN
         add(new RPGClass("guardian", "Guardian", Role.TANK, c(0x7F8C8D), Material.SHIELD,
@@ -154,7 +154,7 @@ public final class ClassRegistry {
                         for (var a : alliesNear(p, 30)) if (a.getLocation().distanceSquared(center) <= 25) effect(a, PotionEffectType.RESISTANCE, 1.5, 1);
                     });
                     return true;
-                }))));
+                })), "cast.generic", "rune"));
 
         // ------------------------------------------------------------ 5. RANGER
         add(new RPGClass("ranger", "Ranger", Role.RANGED_DPS, c(0x27AE60), Material.BOW,
@@ -195,7 +195,7 @@ public final class ClassRegistry {
                         }
                     });
                     return true;
-                }))));
+                })), "cast.generic", "leaf"));
 
         // ------------------------------------------------------------ 6. ASSASSIN
         add(new RPGClass("assassin", "Assassin", Role.MELEE_DPS, c(0x2C3E50), Material.NETHERITE_SWORD,
@@ -229,7 +229,7 @@ public final class ClassRegistry {
                     t.setMetadata("rpg_marked", new org.bukkit.metadata.FixedMetadataValue(plugin(), System.currentTimeMillis() + 10000));
                     repeat(10, 20, () -> { if (!t.isDead()) { damage(p, t, 1.5 + lv * 0.1); dust(t.getLocation().add(0, 2.3, 0), col(120, 0, 0), 2f, 4, 0.1); } });
                     return true;
-                }))));
+                })), "cast.dark", "skull"));
 
         // ------------------------------------------------------------ 7. SAMURAI
         add(new RPGClass("samurai", "Samurai", Role.MELEE_DPS, c(0xE74C3C), Material.DIAMOND_SWORD,
@@ -262,7 +262,7 @@ public final class ClassRegistry {
                         for (var e : enemiesNear(p, p.getLocation(), 3.5)) damage(p, e, 2.5 + lv * 0.15);
                     });
                     return true;
-                }))));
+                })), "cast.generic", "star"));
 
         // ------------------------------------------------------------ 8. MAGE
         add(new RPGClass("mage", "Mage", Role.CASTER, c(0x3498DB), Material.BLAZE_ROD,
@@ -305,7 +305,7 @@ public final class ClassRegistry {
                         i[0]++;
                     });
                     return true;
-                }))));
+                })), "cast.generic", "rune"));
 
         // ------------------------------------------------------------ 9. PYROMANCER
         add(new RPGClass("pyromancer", "Pyromancer", Role.CASTER, c(0xE67E22), Material.FIRE_CHARGE,
@@ -342,7 +342,7 @@ public final class ClassRegistry {
                         for (var e : enemiesNear(p, p.getLocation(), 5)) { damage(p, e, 2 + lv * 0.15); e.setFireTicks(60); }
                     });
                     return true;
-                }))));
+                })), "cast.fire", "ember"));
 
         // ------------------------------------------------------------ 10. CRYOMANCER
         add(new RPGClass("cryomancer", "Cryomancer", Role.CASTER, c(0x5DADE2), Material.PACKED_ICE,
@@ -371,7 +371,7 @@ public final class ClassRegistry {
                         for (var e : enemiesNear(p, center, 6)) { damage(p, e, 1.5 + lv * 0.12); effect(e, PotionEffectType.SLOWNESS, 2, 2); e.setFreezeTicks(e.getFreezeTicks() + 30); }
                     });
                     return true;
-                }))));
+                })), "cast.ice", "snow"));
 
         // ------------------------------------------------------------ 11. STORMCALLER
         add(new RPGClass("stormcaller", "Stormcaller", Role.CASTER, c(0xF4D03F), Material.LIGHTNING_ROD,
@@ -415,7 +415,7 @@ public final class ClassRegistry {
                         e.setFireTicks(40);
                     });
                     return true;
-                }))));
+                })), "cast.thunder", "star"));
 
         // ------------------------------------------------------------ 12. NECROMANCER
         add(new RPGClass("necromancer", "Necromancer", Role.CASTER, c(0x6C3483), Material.WITHER_SKELETON_SKULL,
@@ -452,7 +452,7 @@ public final class ClassRegistry {
                     sound(p.getLocation(), Sound.ENTITY_WITHER_SPAWN, 0.4f, 1.8f);
                     for (var e : enemiesNear(p, p.getLocation(), 10)) { effect(e, PotionEffectType.WITHER, 8 + lv * 0.2, 1); effect(e, PotionEffectType.SLOWNESS, 8, 0); particles(e.getLocation().add(0, 1, 0), Particle.SCULK_SOUL, 20, 0.3, 0.5, 0.3, 0.02); }
                     return true;
-                }))));
+                })), "cast.dark", "skull"));
 
         // ------------------------------------------------------------ 13. WARLOCK
         add(new RPGClass("warlock", "Warlock", Role.CASTER, c(0x9B59B6), Material.ENDER_EYE,
@@ -480,7 +480,7 @@ public final class ClassRegistry {
                         for (var e : enemiesNear(p, center, 8)) { pullTo(center, e, 0.5); damage(p, e, 1.5 + lv * 0.15); }
                     });
                     return true;
-                }))));
+                })), "cast.dark", "rune"));
 
         // ------------------------------------------------------------ 14. DRUID
         add(new RPGClass("druid", "Druid", Role.HYBRID, c(0x196F3D), Material.OAK_SAPLING,
@@ -510,7 +510,7 @@ public final class ClassRegistry {
                     effect(p, PotionEffectType.SLOWNESS, 15 + lv * 0.3, 0);
                     p.getWorld().spawnParticle(Particle.BLOCK, p.getLocation().add(0, 1, 0), 60, 0.5, 0.8, 0.5, 0, Material.BROWN_WOOL.createBlockData());
                     return true;
-                }))));
+                })), "cast.generic", "leaf"));
 
         // ------------------------------------------------------------ 15. CLERIC
         add(new RPGClass("cleric", "Cleric", Role.SUPPORT, c(0xFDFEFE), Material.TOTEM_OF_UNDYING,
@@ -543,7 +543,7 @@ public final class ClassRegistry {
                         helix(a.getLocation(), 2.5, col(255, 255, 200), 25);
                     }
                     return true;
-                }))));
+                })), "cast.holy", "star"));
 
         // ------------------------------------------------------------ 16. SHAMAN
         add(new RPGClass("shaman", "Shaman", Role.SUPPORT, c(0x1ABC9C), Material.TURTLE_EGG,
@@ -570,7 +570,7 @@ public final class ClassRegistry {
                     sound(p.getLocation(), Sound.ENTITY_EVOKER_PREPARE_SUMMON, 1f, 1.2f);
                     for (var a : alliesNear(p, 12)) { effect(a, PotionEffectType.STRENGTH, 12, 0); effect(a, PotionEffectType.SPEED, 12, 0); effect(a, PotionEffectType.REGENERATION, 12, 0); particles(a.getLocation().add(0, 1, 0), Particle.SOUL_FIRE_FLAME, 25, 0.4, 0.6, 0.4, 0.03); }
                     return true;
-                }))));
+                })), "cast.generic", "rune"));
 
         // ------------------------------------------------------------ 17. BARD
         add(new RPGClass("bard", "Bard", Role.SUPPORT, c(0xF39C12), Material.GOAT_HORN,
@@ -591,7 +591,7 @@ public final class ClassRegistry {
                     sound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1f, 1.5f);
                     for (var a : alliesNear(p, 12)) { if (a == p) continue; var pd = com.arena.rpgclasses.RPGClassesPlugin.get().data().get(a); pd.clearCooldowns(); pd.setMana(com.arena.rpgclasses.RPGClassesPlugin.get().mana().maxMana(a, pd)); helix(a.getLocation(), 2.5, col(255, 180, 60), 30); msg(a, p.getName() + " played an Encore! Cooldowns reset."); }
                     return true;
-                }))));
+                })), "cast.generic", "star"));
 
         // ------------------------------------------------------------ 18. MONK
         add(new RPGClass("monk", "Monk", Role.MELEE_DPS, c(0xD4AC0D), Material.STICK,
@@ -617,7 +617,7 @@ public final class ClassRegistry {
                 new Skill("Fists of Fury", "A flurry of lightning-fast punches on all nearby enemies.", 10, 30, 40, (p, d, cl, lv) -> {
                     repeat(12, 2, () -> { p.swingMainHand(); sound(p.getLocation(), Sound.ENTITY_PLAYER_ATTACK_STRONG, 0.8f, 1.6f); for (var e : enemiesNear(p, p.getLocation(), 3)) { damage(p, e, 2 + lv * 0.15); particles(e.getLocation().add(0, 1, 0), Particle.CRIT, 6, 0.3, 0.3, 0.3, 0.2); } });
                     return true;
-                }))));
+                })), "cast.generic", "star"));
 
         // ------------------------------------------------------------ 19. ALCHEMIST
         add(new RPGClass("alchemist", "Alchemist", Role.RANGED_DPS, c(0x58D68D), Material.SPLASH_POTION,
@@ -653,7 +653,7 @@ public final class ClassRegistry {
                         cl2.setRadiusPerTick(-0.01f);
                     });
                     return cloud != null;
-                }))));
+                })), "cast.generic", "leaf"));
 
         // ------------------------------------------------------------ 20. ARTIFICER
         add(new RPGClass("artificer", "Artificer", Role.RANGED_DPS, c(0xAAB7B8), Material.REDSTONE,
@@ -697,6 +697,6 @@ public final class ClassRegistry {
                     ball.setMetadata("rpg_cluster", new org.bukkit.metadata.FixedMetadataValue(plugin(), lv));
                     repeat(60, 1, () -> { if (!ball.isDead()) particles(ball.getLocation(), Particle.SMOKE, 2, 0, 0, 0, 0); });
                     return true;
-                }))));
+                })), "cast.thunder", "rune"));
     }
 }

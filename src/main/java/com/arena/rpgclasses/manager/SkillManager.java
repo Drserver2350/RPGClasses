@@ -21,7 +21,13 @@ public final class SkillManager {
         PlayerData d = plugin.data().get(p);
         if (!d.hasClass()) return;
         d.setSelectedSkill(d.selectedSkill() + dir);
-        p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 0.5f, 1.6f);
+        FX.customSound(p.getLocation(), "ui.select", 0.6f, 1f);
+        var c = plugin.classes().get(d.classId());
+        var s = c.skills().get(d.selectedSkill());
+        boolean locked = d.level() < s.unlockLevel();
+        FX.actionBar(p, net.kyori.adventure.text.Component.text("Selected: ", NamedTextColor.GRAY)
+                .append(net.kyori.adventure.text.Component.text("[" + (d.selectedSkill() + 1) + "] " + s.name(), locked ? NamedTextColor.DARK_GRAY : NamedTextColor.GOLD))
+                .append(net.kyori.adventure.text.Component.text(locked ? "  (unlocks Lv" + s.unlockLevel() + ")" : "", NamedTextColor.RED)));
     }
 
     public boolean cast(Player p, int index) {
@@ -70,6 +76,10 @@ public final class SkillManager {
         double cdMul = 1.0 - 0.2 * Math.min(1.0, d.level() / (double) plugin.classManager().maxLevel());
         d.setCooldown(index, s.cooldownSeconds() * cdMul);
         d.lastCombatMillis = System.currentTimeMillis();
+        // custom resource-pack cast feedback
+        FX.customSound(p.getLocation(), c.castSound(), 0.9f, 1f);
+        FX.customRing(p.getLocation(), 1.2, c.particle(), 10);
+        FX.custom(p.getLocation().add(0, 1.2, 0), c.particle(), 6, 0.3, 0.4, 0.3, 0.05);
         return true;
     }
 }

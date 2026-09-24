@@ -172,6 +172,26 @@ public final class FX {
         });
     }
 
+    // ---------- custom resource-pack assets ----------
+
+    /** Plays a custom sound defined in the pack's sounds.json, e.g. "cast.fire". */
+    public static void customSound(Location loc, String name, float vol, float pitch) {
+        loc.getWorld().playSound(loc, "rpgclasses:" + name, SoundCategory.PLAYERS, vol, pitch);
+    }
+
+    /** Spawns a custom-textured particle (rune, skull, star, leaf, ember, snow) using an item particle. */
+    public static void custom(Location loc, String kind, int count, double dx, double dy, double dz, double speed) {
+        loc.getWorld().spawnParticle(Particle.ITEM, loc, count, dx, dy, dz, speed,
+                com.arena.rpgclasses.RPGClassesPlugin.get().items().particleItem(kind));
+    }
+
+    public static void customRing(Location center, double radius, String kind, int points) {
+        for (int i = 0; i < points; i++) {
+            double a = 2 * Math.PI * i / points;
+            custom(center.clone().add(radius * Math.cos(a), 0.2, radius * Math.sin(a)), kind, 1, 0, 0, 0, 0);
+        }
+    }
+
     // ---------- scheduling ----------
 
     public static void later(long ticks, Runnable r) {
